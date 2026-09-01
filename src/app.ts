@@ -137,9 +137,8 @@ getById("stat-expiring").textContent=String(items.filter((i)=>getExpiryStatus(i.
 for(const s of SOURCES){const e=document.getElementById(`stat-${s}`);if(e)e.textContent=String(items.filter((i)=>i.source===s).length);}
 }
 function createQuantityIndicator(qty:SeedItem["quantity"]):HTMLElement{
-const w=el("div","quantity-indicator");
+const w=el("div","quantity-indicator"),l=qty==="full"?3:qty==="partial"?2:1;
 w.setAttribute("aria-label",`Quantity: ${qty}`);
-const l=qty==="full"?3:qty==="partial"?2:1;
 for(let i=1;i<=3;i++)w.append(el("span",`qty-bar qty-bar--${i} qty-bar--${i<=l?"filled":"empty"}`));
 w.append(el("span","quantity-label",qty));
 return w;
@@ -194,15 +193,12 @@ actions
 form.onsubmit=(e)=>{e.preventDefault();handleEditSubmit(item.id,form);};
 wrap.append(form);return wrap;
 }
-function createEmptyNoResults(query:string,source:string):HTMLElement{
-const w=el("div","empty-state");
-const icon=el("div","empty-state__icon");
+function createEmptyNoResults(q:string,s:string):HTMLElement{
+const w=el("div","empty-state"),icon=el("div","empty-state__icon"),btn=el("button","btn btn--secondary","Clear filters");
 icon.innerHTML=`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>`;
-const parts=[query&&`"${query}"`,source&&`source: ${source}`].filter(Boolean);
-const clearBtn=el("button","btn btn--secondary","Clear filters");
-clearBtn.id="clear-filters-btn";
-w.append(icon,el("h2","empty-state__heading","No matching packets"),
-el("p","empty-state__body",`No seeds match ${parts.join(" and ")}. Try adjusting your search or filters.`),clearBtn);
+const p=[q&&`"${q}"`,s&&`source: ${s}`].filter(Boolean);
+btn.id="clear-filters-btn";
+w.append(icon,el("h2","empty-state__heading","No matching packets"),el("p","empty-state__body",`No seeds match ${p.join(" and ")}. Adjust search or filters.`),btn);
 return w;
 }
 export function render():void{
