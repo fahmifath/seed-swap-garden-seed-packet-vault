@@ -169,7 +169,7 @@ return card;
 }
 const mkInp=(p:string,n:string,t:string,v:string,max?:number)=>{const i=el("input","form-input");i.id=`${p}-${n}`;i.name=n;i.type=t;i.value=v;i.dataset.form=p;i.setAttribute("aria-describedby",`${p}-err-${n}`);if(max)i.maxLength=max;return i;};
 const mkSel=(p:string,n:string,opts:readonly string[],v:string)=>{const s=el("select","form-input");s.id=`${p}-${n}`;s.name=n;s.dataset.form=p;s.setAttribute("aria-describedby",`${p}-err-${n}`);for(const o of opts){const opt=el("option",undefined,o);opt.value=o;if(o===v)opt.selected=true;s.append(opt);}return s;};
-const mkGroup=(p:string,n:string,label:string,inputEl:HTMLElement)=>{const g=el("div","form-group"),l=el("label","form-label",label),err=el("span","field-error");l.setAttribute("for",`${p}-${n}`);err.id=`${p}-err-${n}`;g.append(l,inputEl,err);return g;};
+const field=(p:string,n:string,lbl:string,ctrl:HTMLElement)=>{const g=el("div","form-group"),l=el("label","form-label",lbl),err=el("span","field-error");l.setAttribute("for",`${p}-${n}`);err.id=`${p}-err-${n}`;g.append(l,ctrl,err);return g;};
 function createEditForm(item:SeedItem):HTMLElement{
 const p=`edit-${item.id}`;
 const wrap=el("article","card card--editing");
@@ -177,19 +177,18 @@ wrap.dataset.itemId=item.id;
 wrap.append(el("h3","card__name",`Editing: ${item.plantName}`));
 const form=el("form","edit-form");
 form.id=`${p}-form`;
-const notesInp=el("textarea","form-input");
-notesInp.id=`${p}-notes`;notesInp.name="notes";notesInp.value=item.notes;
-notesInp.maxLength=NOTES_MAX_LEN;notesInp.rows=3;notesInp.dataset.form=p;
+const notes=el("textarea","form-input");
+notes.id=`${p}-notes`;notes.name="notes";notes.value=item.notes;notes.maxLength=NOTES_MAX_LEN;notes.rows=3;notes.dataset.form=p;
 const saveBtn=el("button","btn btn--primary btn--sm","Save");saveBtn.type="submit";
 const cancelBtn=el("button","btn btn--secondary btn--sm","Cancel");cancelBtn.type="button";
 cancelBtn.onclick=cancelEdit;
 const actions=el("div","card__actions");actions.append(saveBtn,cancelBtn);
 form.append(
-mkGroup(p,"plantName","Plant name",mkInp(p,"plantName","text",item.plantName,PLANT_NAME_MAX_LEN)),
-mkGroup(p,"source","Seed source",mkSel(p,"source",SOURCES,item.source)),
-mkGroup(p,"packetYear","Packet year",mkInp(p,"packetYear","number",String(item.packetYear))),
-mkGroup(p,"quantity","Quantity remaining",mkSel(p,"quantity",QUANTITIES,item.quantity)),
-mkGroup(p,"notes","Notes",notesInp),
+field(p,"plantName","Plant name",mkInp(p,"plantName","text",item.plantName,PLANT_NAME_MAX_LEN)),
+field(p,"source","Seed source",mkSel(p,"source",SOURCES,item.source)),
+field(p,"packetYear","Packet year",mkInp(p,"packetYear","number",String(item.packetYear))),
+field(p,"quantity","Quantity remaining",mkSel(p,"quantity",QUANTITIES,item.quantity)),
+field(p,"notes","Notes",notes),
 actions
 );
 form.onsubmit=(e)=>{e.preventDefault();handleEditSubmit(item.id,form);};
