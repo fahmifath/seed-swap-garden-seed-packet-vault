@@ -1,4 +1,4 @@
-:root {
+:root{
 --bg:#0f1117;--surface:#181d27;--surface-2:#1f2637;--surface-3:#263045;
 --border:#2e3a52;--border-h:#3d4f6e;
 --text:#e8edf5;--text-muted:#8a97b0;--text-faint:#5a6882;
@@ -57,14 +57,14 @@ body{font-family:var(--fb);background:var(--bg);color:var(--text);line-height:1.
 .section-heading{font-size:.875rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--text-muted);margin-bottom:var(--sp4)}
 .form-group{display:flex;flex-direction:column;gap:var(--sp1);margin-bottom:var(--sp4)}
 .form-label{font-size:.8rem;font-weight:500;color:var(--text-muted)}
-.form-input{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r2);color:var(--text);font-family:var(--fb);font-size:.9rem;padding:var(--sp2) var(--sp3);transition:border-color var(--tr),box-shadow var(--tr);width:100%;overflow-wrap:anywhere}
+.form-input{background:var(--surface-2);border:1px solid var(--border);border-radius:var(--r2);color:var(--text);font-family:inherit;font-size:.9rem;padding:var(--sp2) var(--sp3);transition:all var(--tr);width:100%;overflow-wrap:anywhere}
 .form-input:hover{border-color:var(--border-h)}
 .form-input:focus{border-color:var(--cp);box-shadow:0 0 0 3px var(--cp-lt)}
 .form-input[aria-invalid="true"]{border-color:var(--cd);box-shadow:0 0 0 3px var(--cd-lt)}
 select.form-input{cursor:pointer}
 textarea.form-input{resize:vertical;min-height:72px}
 .field-error{font-size:.8rem;color:var(--cd);font-weight:500;min-height:1.2em;overflow-wrap:anywhere}
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp2);padding:var(--sp2) var(--sp4);border:1px solid transparent;border-radius:var(--r2);font-family:var(--fb);font-size:.875rem;font-weight:600;cursor:pointer;transition:background var(--tr),color var(--tr),border-color var(--tr),transform var(--tr);white-space:nowrap}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:var(--sp2);padding:var(--sp2) var(--sp4);border:1px solid transparent;border-radius:var(--r2);font-family:inherit;font-size:.875rem;font-weight:600;cursor:pointer;transition:all var(--tr);white-space:nowrap}
 .btn:disabled{opacity:.5;cursor:not-allowed;pointer-events:none}
 .btn:active{transform:scale(.97)}
 .btn--primary{background:var(--cp);color:var(--cp-tx);border-color:var(--cp-dk)}
@@ -78,7 +78,7 @@ textarea.form-input{resize:vertical;min-height:72px}
 .btn--full{width:100%;margin-top:var(--sp2)}
 @keyframes pulse-d{0%,100%{box-shadow:0 0 0 0 color-mix(in oklab,var(--cd) 40%,transparent)}50%{box-shadow:0 0 0 4px color-mix(in oklab,var(--cd) 20%,transparent)}}
 .seed-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:var(--sp4)}
-.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);padding:var(--sp5);display:flex;flex-direction:column;gap:var(--sp3);transition:box-shadow var(--tr),transform var(--tr),border-color var(--tr);box-shadow:var(--sh1)}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r3);padding:var(--sp5);display:flex;flex-direction:column;gap:var(--sp3);transition:all var(--tr);box-shadow:var(--sh1)}
 .card:hover{box-shadow:var(--sh2);transform:translateY(-2px);border-color:var(--border-h)}
 .card--expired{border-left:3px solid var(--cd);opacity:.75}
 .card--expired .card__name{text-decoration:line-through;color:var(--text-muted)}
