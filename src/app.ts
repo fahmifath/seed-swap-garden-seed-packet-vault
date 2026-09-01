@@ -145,8 +145,8 @@ function createQuantityIndicator(qty:SeedItem["quantity"]):HTMLElement{
 const w=el("div","quantity-indicator");
 w.setAttribute("aria-label",`Quantity: ${qty}`);
 const l=qty==="full"?3:qty==="partial"?2:1;
-for(let i=1;i<=3;i++)w.appendChild(el("span",`qty-bar qty-bar--${i} qty-bar--${i<=l?"filled":"empty"}`));
-w.appendChild(el("span","quantity-label",qty));
+for(let i=1;i<=3;i++)w.append(el("span",`qty-bar qty-bar--${i} qty-bar--${i<=l?"filled":"empty"}`));
+w.append(el("span","quantity-label",qty));
 return w;
 }
 function createCard(item:SeedItem,curYear:number):HTMLElement{
@@ -156,7 +156,7 @@ card.dataset.itemId=item.id;
 const header=el("div","card__header");
 header.append(el("h3","card__name",item.plantName),el("span",`badge badge--source badge--${item.source}`,item.source));
 const expRow=el("div","card__expiry");
-expRow.appendChild(el("span",`badge badge--expiry badge--${status}`,formatExpiry(item.packetYear,curYear)));
+expRow.append(el("span",`badge badge--expiry badge--${status}`,formatExpiry(item.packetYear,curYear)));
 const isArmed=armedDeleteId===item.id;
 const delBtn=el("button",`btn btn--danger btn--sm${isArmed?" btn--armed":""}`,isArmed?"Confirm delete?":"Delete");
 delBtn.setAttribute("aria-label",`${isArmed?"Confirm delete":"Delete"} ${item.plantName}`);
@@ -168,35 +168,18 @@ editBtn.onclick=()=>startEdit(item.id);
 const actions=el("div","card__actions");
 actions.append(editBtn,delBtn);
 card.append(header,expRow,createQuantityIndicator(item.quantity));
-if(item.notes)card.appendChild(el("p","card__notes",item.notes));
-card.appendChild(actions);
+if(item.notes)card.append(el("p","card__notes",item.notes));
+card.append(actions);
 return card;
 }
-function mkInp(p:string,n:string,t:string,v:string,max?:number):HTMLInputElement{
-const i=el("input","form-input");
-i.id=`${p}-${n}`;i.name=n;i.type=t;i.value=v;i.dataset.form=p;
-i.setAttribute("aria-describedby",`${p}-err-${n}`);
-if(max)i.maxLength=max;
-return i;
-}
-function mkSel(p:string,n:string,opts:readonly string[],v:string):HTMLSelectElement{
-const s=el("select","form-input");
-s.id=`${p}-${n}`;s.name=n;s.dataset.form=p;
-s.setAttribute("aria-describedby",`${p}-err-${n}`);
-for(const o of opts){const opt=el("option",undefined,o);opt.value=o;if(o===v)opt.selected=true;s.appendChild(opt);}
-return s;
-}
-function mkGroup(p:string,n:string,label:string,inputEl:HTMLElement):HTMLElement{
-const g=el("div","form-group");
-const l=el("label","form-label",label);l.setAttribute("for",`${p}-${n}`);
-const err=el("span","field-error");err.id=`${p}-err-${n}`;
-g.append(l,inputEl,err);return g;
-}
+const mkInp=(p:string,n:string,t:string,v:string,max?:number)=>{const i=el("input","form-input");i.id=`${p}-${n}`;i.name=n;i.type=t;i.value=v;i.dataset.form=p;i.setAttribute("aria-describedby",`${p}-err-${n}`);if(max)i.maxLength=max;return i;};
+const mkSel=(p:string,n:string,opts:readonly string[],v:string)=>{const s=el("select","form-input");s.id=`${p}-${n}`;s.name=n;s.dataset.form=p;s.setAttribute("aria-describedby",`${p}-err-${n}`);for(const o of opts){const opt=el("option",undefined,o);opt.value=o;if(o===v)opt.selected=true;s.append(opt);}return s;};
+const mkGroup=(p:string,n:string,label:string,inputEl:HTMLElement)=>{const g=el("div","form-group"),l=el("label","form-label",label),err=el("span","field-error");l.setAttribute("for",`${p}-${n}`);err.id=`${p}-err-${n}`;g.append(l,inputEl,err);return g;};
 function createEditForm(item:SeedItem):HTMLElement{
 const p=`edit-${item.id}`;
 const wrap=el("article","card card--editing");
 wrap.dataset.itemId=item.id;
-wrap.appendChild(el("h3","card__name",`Editing: ${item.plantName}`));
+wrap.append(el("h3","card__name",`Editing: ${item.plantName}`));
 const form=el("form","edit-form");
 form.id=`${p}-form`;
 const notesInp=el("textarea","form-input");
@@ -215,7 +198,7 @@ mkGroup(p,"notes","Notes",notesInp),
 actions
 );
 form.onsubmit=(e)=>{e.preventDefault();handleEditSubmit(item.id,form);};
-wrap.appendChild(form);return wrap;
+wrap.append(form);return wrap;
 }
 function createEmptyNoResults(query:string,source:string):HTMLElement{
 const w=el("div","empty-state");
@@ -242,13 +225,13 @@ noItemsEl.hidden=true;
 if(displayed.length===0){
 noResultsEl.hidden=false;
 noResultsEl.innerHTML="";
-noResultsEl.appendChild(createEmptyNoResults(filterQuery,filterSource));
+noResultsEl.append(createEmptyNoResults(filterQuery,filterSource));
 const desc=[filterQuery&&`"${filterQuery}"`,filterSource&&`source: ${filterSource}`].filter(Boolean).join(" and ");
 announce(`No packets match ${desc}.`);
 return;
 }
 noResultsEl.hidden=true;
 for(const item of displayed){
-grid.appendChild(editingId===item.id?createEditForm(item):createCard(item,curYear));
+grid.append(editingId===item.id?createEditForm(item):createCard(item,curYear));
 }
 }
