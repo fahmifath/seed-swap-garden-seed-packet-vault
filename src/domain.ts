@@ -34,7 +34,7 @@ export function validate(input: RawInput): ValidateResult {
   if (!input.packetYear.trim()) errors.packetYear = "Packet year is required.";
   else if (!Number.isInteger(yr) || yr < YEAR_MIN || yr > YEAR_MAX) errors.packetYear = `Year must be a whole number between ${YEAR_MIN} and ${YEAR_MAX}.`;
   if (!QUANTITIES.includes(input.quantity as Quantity)) errors.quantity = "Please select a valid quantity.";
-  return { ok: Object.keys(errors).length === 0, errors };
+  return { ok: !Object.keys(errors).length, errors };
 }
 
 export function createItem(input: RawInput, id: string, now: string): SeedItem {
@@ -68,11 +68,7 @@ export function normalize(raw: unknown): SeedItem | null {
 
 export function filterItems(items: SeedItem[], query: string, source: Source | ""): SeedItem[] {
   const q = query.trim().toLowerCase();
-  return items.filter((item) => {
-    const matchQ = !q || item.plantName.toLowerCase().includes(q) || item.notes.toLowerCase().includes(q);
-    const matchS = !source || item.source === source;
-    return matchQ && matchS;
-  });
+  return items.filter((item) => (!q || item.plantName.toLowerCase().includes(q) || item.notes.toLowerCase().includes(q)) && (!source || item.source === source));
 }
 
 export function sortByExpiry(items: SeedItem[]): SeedItem[] {

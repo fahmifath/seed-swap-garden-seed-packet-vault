@@ -19,7 +19,6 @@ const el = <K extends keyof HTMLElementTagNameMap>(tag: K, cls?: string, txt?: s
   if (txt !== undefined) n.textContent = txt;
   return n;
 };
-
 const getById = <T extends HTMLElement>(id: string): T => document.getElementById(id) as T;
 
 function announce(msg: string): void {
@@ -183,9 +182,7 @@ function createQuantityIndicator(qty: SeedItem["quantity"]): HTMLElement {
   const w = el("div", "quantity-indicator");
   w.setAttribute("aria-label", `Quantity: ${qty}`);
   const l = qty === "full" ? 3 : qty === "partial" ? 2 : 1;
-  for (let i = 1; i <= 3; i++) {
-    w.appendChild(el("span", `qty-bar qty-bar--${i} qty-bar--${i <= l ? "filled" : "empty"}`));
-  }
+  for (let i = 1; i <= 3; i++) w.appendChild(el("span", `qty-bar qty-bar--${i} qty-bar--${i <= l ? "filled" : "empty"}`));
   w.appendChild(el("span", "quantity-label", qty));
   return w;
 }
@@ -220,13 +217,36 @@ function createCard(item: SeedItem, curYear: number): HTMLElement {
   return card;
 }
 
-function formGroup(label: string, inputEl: HTMLElement, errId: string): HTMLElement {
+function mkField(p: string, name: string, label: string, type: string, value: string, opts?: readonly string[], max?: number): HTMLElement {
   const g = el("div", "form-group");
   const l = el("label", "form-label", label);
-  l.setAttribute("for", inputEl.id);
+  const id = `${p}-${name}`;
+  l.setAttribute("for", id);
+  let inp: HTMLElement;
+  if (opts) {
+    const s = el("select", "form-input");
+    s.id = id; s.name = name; s.dataset.form = p;
+    s.setAttribute("aria-describedby", `${p}-err-${name}`);
+    for (const o of opts) {
+      const opt = el("option", undefined, o); opt.value = o; if (o === value) opt.selected = true;
+      s.appendChild(opt);
+    }
+    inp = s;
+  } else if (type === "textarea") {
+    const t = el("textarea", "form-input");
+    t.id = id; t.name = name; t.value = value; t.dataset.form = p;
+    if (max) t.maxLength = max;
+    inp = t;
+  } else {
+    const i = el("input", "form-input");
+    i.id = id; i.name = name; i.type = type; i.value = value; i.dataset.form = p;
+    i.setAttribute("aria-describedby", `${p}-err-${name}`);
+    if (max) i.maxLength = max;
+    inp = i;
+  }
   const err = el("span", "field-error");
-  err.id = errId;
-  g.append(l, inputEl, err);
+  err.id = `${p}-err-${name}`;
+  g.append(l, inp, err);
   return g;
 }
 
@@ -239,28 +259,6 @@ function createEditForm(item: SeedItem): HTMLElement {
   const form = el("form", "edit-form");
   form.id = `${p}-form`;
 
-  const mkInp = (t: string, n: string, v: string, max?: number) => {
-    const i = el("input", "form-input");
-    i.id = `${p}-${n}`; i.name = n; i.type = t; i.value = v; i.dataset.form = p;
-    i.setAttribute("aria-describedby", `${p}-err-${n}`);
-    if (max) i.maxLength = max;
-    return i;
-  };
-  const mkSel = (n: string, opts: readonly string[], v: string) => {
-    const s = el("select", "form-input");
-    s.id = `${p}-${n}`; s.name = n; s.dataset.form = p;
-    s.setAttribute("aria-describedby", `${p}-err-${n}`);
-    for (const o of opts) {
-      const opt = el("option", undefined, o); opt.value = o; if (o === v) opt.selected = true;
-      s.appendChild(opt);
-    }
-    return s;
-  };
-
-  const notesInp = el("textarea", "form-input");
-  notesInp.id = `${p}-notes`; notesInp.name = "notes"; notesInp.value = item.notes;
-  notesInp.maxLength = NOTES_MAX_LEN; notesInp.rows = 3; notesInp.dataset.form = p;
-
   const saveBtn = el("button", "btn btn--primary btn--sm", "Save"); saveBtn.type = "submit";
   const cancelBtn = el("button", "btn btn--secondary btn--sm", "Cancel"); cancelBtn.type = "button";
   cancelBtn.onclick = cancelEdit;
@@ -268,11 +266,11 @@ function createEditForm(item: SeedItem): HTMLElement {
   actions.append(saveBtn, cancelBtn);
 
   form.append(
-    formGroup("Plant name", mkInp("text", "plantName", item.plantName, PLANT_NAME_MAX_LEN), `${p}-err-plantName`),
-    formGroup("Seed source", mkSel("source", SOURCES, item.source), `${p}-err-source`),
-    formGroup("Packet year", mkInp("number", "packetYear", String(item.packetYear)), `${p}-err-packetYear`),
-    formGroup("Quantity remaining", mkSel("quantity", QUANTITIES, item.quantity), `${p}-err-quantity`),
-    formGroup("Notes", notesInp, `${p}-err-notes`),
+    mkField(p, "plantName", "Plant name", "text", item.plantName, undefined, PLANT_NAME_MAX_LEN),
+    mkField(p, "source", "Seed source", "", item.source, SOURCES),
+    mkField(p, "packetYear", "Packet year", "number", String(item.packetYear)),
+    mkField(p, "quantity", "Quantity remaining", "", item.quantity, QUANTITIES),
+    mkField(p, "notes", "Notes", "textarea", item.notes, undefined, NOTES_MAX_LEN),
     actions
   );
 

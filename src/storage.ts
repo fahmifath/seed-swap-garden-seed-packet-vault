@@ -28,13 +28,9 @@ export function load(): LoadResult {
     if (item) valid.push(item); else skipped++;
   }
 
-  if (valid.length === 0 && skipped === 0) return { status: "empty" };
-  if (skipped > 0 && valid.length === 0) {
-    return { status: "error", message: `All ${skipped} stored packet(s) were corrupt and could not be recovered.` };
-  }
-  if (skipped > 0) {
-    return { status: "partial", items: valid, message: `${skipped} packet(s) could not be recovered due to corrupt data.` };
-  }
+  if (!valid.length && !skipped) return { status: "empty" };
+  if (skipped > 0 && !valid.length) return { status: "error", message: `All ${skipped} stored packet(s) were corrupt and could not be recovered.` };
+  if (skipped > 0) return { status: "partial", items: valid, message: `${skipped} packet(s) could not be recovered due to corrupt data.` };
   return { status: "ok", items: valid };
 }
 
