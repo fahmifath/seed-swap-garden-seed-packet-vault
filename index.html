@@ -1,12 +1,10 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>Seed Packet Vault — Garden Seed Catalog</title>
 <meta name="description" content="Catalog seed packets in your stash."/>
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital@0;1&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="/src/style.css"/>
 </head>
@@ -14,18 +12,11 @@
 <a href="#main-content" class="skip-link">Skip to main content</a>
 <div id="live-region" class="sr-only" aria-live="polite" aria-atomic="true"></div>
 <div id="storage-banner" class="storage-banner" hidden role="alert"></div>
-<header class="site-header" role="banner">
-<div class="header-inner">
-<div class="header-brand">
+<header class="site-header" role="banner"><div class="header-inner"><div class="header-brand">
 <svg class="brand-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
-<h1 class="brand-title">Seed Packet Vault</h1>
-</div>
-<p class="header-tagline">Your personal garden seed catalog</p>
-</div>
-</header>
+<h1 class="brand-title">Seed Packet Vault</h1></div><p class="header-tagline">Your personal garden seed catalog</p></div></header>
 <main id="main-content" class="main-layout">
-<section class="stats-bar" aria-label="Collection statistics">
-<div class="stats-inner">
+<section class="stats-bar" aria-label="Collection statistics"><div class="stats-inner">
 <div class="stat-item"><span class="stat-value" id="stat-total">0</span><span class="stat-label">Total packets</span></div>
 <div class="stat-item stat-item--warning"><span class="stat-value" id="stat-expiring">0</span><span class="stat-label">Expiring / expired</span></div>
 <div class="stat-divider" aria-hidden="true"></div>
@@ -33,81 +24,30 @@
 <div class="stat-item"><span class="stat-dot stat-dot--saved" aria-hidden="true"></span><span class="stat-value" id="stat-saved">0</span><span class="stat-label">Saved</span></div>
 <div class="stat-item"><span class="stat-dot stat-dot--swapped" aria-hidden="true"></span><span class="stat-value" id="stat-swapped">0</span><span class="stat-label">Swapped</span></div>
 <div class="stat-item"><span class="stat-dot stat-dot--gifted" aria-hidden="true"></span><span class="stat-value" id="stat-gifted">0</span><span class="stat-label">Gifted</span></div>
-</div>
-</section>
+</div></section>
 <div class="content-layout">
 <aside class="sidebar" aria-label="Add seeds and filters">
 <section class="sidebar-section" aria-labelledby="add-form-heading">
 <h2 id="add-form-heading" class="section-heading">Add Seed Packet</h2>
 <form id="add-form" novalidate aria-label="Add a new seed packet">
-<div class="form-group">
-<label class="form-label" for="add-plantName">Plant name *</label>
-<input class="form-input" id="add-plantName" name="plantName" type="text" placeholder="e.g. Cherry Tomato – Sun Gold" maxlength="100" aria-describedby="add-err-plantName" data-form="add" required/>
-<span class="field-error" id="add-err-plantName"></span>
-</div>
-<div class="form-group">
-<label class="form-label" for="add-source">Seed source *</label>
-<select class="form-input" id="add-source" name="source" aria-describedby="add-err-source" data-form="add">
-<option value="">— choose source —</option>
-<option value="bought">Bought</option><option value="saved">Saved</option>
-<option value="swapped">Swapped</option><option value="gifted">Gifted</option>
-</select>
-<span class="field-error" id="add-err-source"></span>
-</div>
-<div class="form-group">
-<label class="form-label" for="add-packetYear">Packet year *</label>
-<input class="form-input" id="add-packetYear" name="packetYear" type="number" placeholder="e.g. 2026" min="1900" max="2100" aria-describedby="add-err-packetYear" data-form="add" required/>
-<span class="field-error" id="add-err-packetYear"></span>
-</div>
-<div class="form-group">
-<label class="form-label" for="add-quantity">Quantity remaining *</label>
-<select class="form-input" id="add-quantity" name="quantity" aria-describedby="add-err-quantity" data-form="add">
-<option value="">— choose quantity —</option>
-<option value="full">Full</option><option value="partial">Partial</option><option value="nearly empty">Nearly empty</option>
-</select>
-<span class="field-error" id="add-err-quantity"></span>
-</div>
-<div class="form-group">
-<label class="form-label" for="add-notes">Notes</label>
-<textarea class="form-input" id="add-notes" name="notes" placeholder="e.g. great germination last spring" maxlength="500" rows="3" data-form="add"></textarea>
-</div>
+<div class="form-group"><label class="form-label" for="add-plantName">Plant name *</label><input class="form-input" id="add-plantName" name="plantName" type="text" placeholder="e.g. Cherry Tomato – Sun Gold" maxlength="100" aria-describedby="add-err-plantName" data-form="add" required/><span class="field-error" id="add-err-plantName"></span></div>
+<div class="form-group"><label class="form-label" for="add-source">Seed source *</label><select class="form-input" id="add-source" name="source" aria-describedby="add-err-source" data-form="add"><option value="">— choose source —</option><option value="bought">Bought</option><option value="saved">Saved</option><option value="swapped">Swapped</option><option value="gifted">Gifted</option></select><span class="field-error" id="add-err-source"></span></div>
+<div class="form-group"><label class="form-label" for="add-packetYear">Packet year *</label><input class="form-input" id="add-packetYear" name="packetYear" type="number" placeholder="e.g. 2026" min="1900" max="2100" aria-describedby="add-err-packetYear" data-form="add" required/><span class="field-error" id="add-err-packetYear"></span></div>
+<div class="form-group"><label class="form-label" for="add-quantity">Quantity remaining *</label><select class="form-input" id="add-quantity" name="quantity" aria-describedby="add-err-quantity" data-form="add"><option value="">— choose quantity —</option><option value="full">Full</option><option value="partial">Partial</option><option value="nearly empty">Nearly empty</option></select><span class="field-error" id="add-err-quantity"></span></div>
+<div class="form-group"><label class="form-label" for="add-notes">Notes</label><textarea class="form-input" id="add-notes" name="notes" placeholder="e.g. great germination last spring" maxlength="500" rows="3" data-form="add"></textarea></div>
 <button class="btn btn--primary btn--full" type="submit">Add to Vault</button>
 </form>
 </section>
 <section class="sidebar-section" aria-labelledby="filter-heading">
 <h2 id="filter-heading" class="section-heading">Filter &amp; Sort</h2>
-<div class="form-group">
-<label class="form-label" for="search-input">Search</label>
-<input class="form-input" id="search-input" type="search" placeholder="Search by name or notes…" aria-label="Search seeds by name or notes"/>
-</div>
-<div class="form-group">
-<label class="form-label" for="source-filter">Filter by source</label>
-<select class="form-input" id="source-filter" aria-label="Filter seeds by source type">
-<option value="">All sources</option>
-<option value="bought">Bought</option><option value="saved">Saved</option>
-<option value="swapped">Swapped</option><option value="gifted">Gifted</option>
-</select>
-</div>
-<div class="form-group">
-<label class="form-label" for="sort-select">Sort by</label>
-<select class="form-input" id="sort-select" aria-label="Sort seed packets">
-<option value="expiry">Expiry year (soonest first)</option>
-<option value="name">Plant name (A–Z)</option>
-</select>
-</div>
+<div class="form-group"><label class="form-label" for="search-input">Search</label><input class="form-input" id="search-input" type="search" placeholder="Search by name or notes…" aria-label="Search seeds by name or notes"/></div>
+<div class="form-group"><label class="form-label" for="source-filter">Filter by source</label><select class="form-input" id="source-filter" aria-label="Filter seeds by source type"><option value="">All sources</option><option value="bought">Bought</option><option value="saved">Saved</option><option value="swapped">Swapped</option><option value="gifted">Gifted</option></select></div>
+<div class="form-group"><label class="form-label" for="sort-select">Sort by</label><select class="form-input" id="sort-select" aria-label="Sort seed packets"><option value="expiry">Expiry year (soonest first)</option><option value="name">Plant name (A–Z)</option></select></div>
 </section>
 </aside>
 <section class="vault-section" aria-labelledby="vault-heading">
 <h2 id="vault-heading" class="sr-only">Seed Packets</h2>
-<div id="empty-no-items" class="empty-state-container" hidden>
-<div class="empty-state">
-<div class="empty-state__icon">
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="8" y="12" width="32" height="28" rx="3"/><path d="M16 12V9a8 8 0 0 1 16 0v3"/><path d="M24 22v8M20 26h8"/></svg>
-</div>
-<h2 class="empty-state__heading">Your vault is empty</h2>
-<p class="empty-state__body">Add your first seed packet using the form on the left to start your catalog.</p>
-</div>
-</div>
+<div id="empty-no-items" class="empty-state-container" hidden><div class="empty-state"><div class="empty-state__icon"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><rect x="8" y="12" width="32" height="28" rx="3"/><path d="M16 12V9a8 8 0 0 1 16 0v3"/><path d="M24 22v8M20 26h8"/></svg></div><h2 class="empty-state__heading">Your vault is empty</h2><p class="empty-state__body">Add your first seed packet using the form on the left to start your catalog.</p></div></div>
 <div id="empty-no-results" class="empty-state-container" hidden></div>
 <div id="seed-grid" class="seed-grid" role="list" aria-label="Seed packet cards"></div>
 </section>
