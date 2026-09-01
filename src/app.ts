@@ -60,9 +60,8 @@ filterQuery="";filterSource="";
 (getById("search-input") as HTMLInputElement).value="";
 (getById("source-filter") as HTMLSelectElement).value="";
 render();
-}else if(armedDeleteId!==null){
-const armed=document.querySelector<HTMLButtonElement>(`[data-delete-id="${armedDeleteId}"]`);
-if(armed&&!armed.contains(t)){disarmDelete();render();}
+}else if(armedDeleteId!==null&&!t.closest(`[data-delete-id="${armedDeleteId}"]`)){
+disarmDelete();render();
 }
 };
 document.onkeydown=(e)=>{if(e.key==="Escape"&&armedDeleteId!==null){disarmDelete();render();}};
@@ -91,16 +90,15 @@ document.querySelectorAll(`[id^="${p}-err-"]`).forEach((e)=>{e.textContent="";e.
 document.querySelectorAll(`[data-form="${p}"]`).forEach((e)=>{(e as HTMLElement).removeAttribute("aria-invalid");});
 }
 function showFieldErrors(p:string,errors:Record<string,string|undefined>):void{
+let first:HTMLElement|null=null;
 for(const[k,msg] of Object.entries(errors)){
 if(!msg)continue;
 const err=document.getElementById(`${p}-err-${k}`);
 if(err){err.textContent=msg;err.setAttribute("role","alert");}
 const inp=document.querySelector<HTMLElement>(`[data-form="${p}"][name="${k}"]`);
-if(inp)inp.setAttribute("aria-invalid","true");
+if(inp){inp.setAttribute("aria-invalid","true");if(!first)first=inp;}
 }
-const first=Object.keys(errors).find((k)=>errors[k]);
-const inp=document.querySelector<HTMLElement>(`[data-form="${p}"][name="${first}"]`);
-inp?.focus();
+first?.focus();
 }
 function armDelete(id:string):void{
 if(armedDeleteTimer)clearTimeout(armedDeleteTimer);
@@ -136,10 +134,7 @@ announce(`Updated "${updated.plantName}".`);
 function renderStats(curYear:number):void{
 getById("stat-total").textContent=String(items.length);
 getById("stat-expiring").textContent=String(items.filter((i)=>getExpiryStatus(i.packetYear,curYear)!=="ok").length);
-for(const s of SOURCES){
-const e=document.getElementById(`stat-${s}`);
-if(e)e.textContent=String(items.filter((i)=>i.source===s).length);
-}
+for(const s of SOURCES){const e=document.getElementById(`stat-${s}`);if(e)e.textContent=String(items.filter((i)=>i.source===s).length);}
 }
 function createQuantityIndicator(qty:SeedItem["quantity"]):HTMLElement{
 const w=el("div","quantity-indicator");
